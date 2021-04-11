@@ -347,9 +347,17 @@ a {
     padding: 0 var(--popup-padding-x);
 }
 
+.btn {
+    cursor: pointer;
+}
+
 .btn-close {
     top: 50%;
     right: var(--popup-padding-x);
     transform: translateY(-50%);
-    cursor: pointer;
+}
+
+.servings {
+    width: 3.6rem;
+    max-width: 10rem;
 }

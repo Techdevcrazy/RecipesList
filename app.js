@@ -121,16 +121,28 @@ let helpers = {
   elements.Popup = (function () {
     function Popup (recipeId) {
       this.recipeId = recipeId;
+
       this.selectors = {
         container: '.details-popup',
         activeClass: 'details-popup_active',
         loadingClass: 'details-popup_loading',
         initializedClass: 'details-popup_initialized',
-        closeBtn: '.js-close-popup'
+        closeBtn: '.js-close-popup',
+        updateBtn: '.js-update-servings'
       }
 
       this.$container = document.querySelector(this.selectors.container);
+      this.$title = this.$container.querySelector('.title__link');
+      this.$description = this.$container.querySelector('.description');
+      this.$ingredients = this.$container.querySelector('.ingredients-list');
+      this.$directions = this.$container.querySelector('.directions-list');
+      this.$servings = this.$container.querySelector('.servings');
+      this.$tags = this.$container.querySelector('.tags');
+      this.$author = this.$container.querySelector('.author');
+      this.$source = this.$container.querySelector('.source');
+
       this.$closeBtn = this.$container.querySelector(this.selectors.closeBtn);
+      this.$updateBtn = this.$container.querySelector(this.selectors.updateBtn);
 
       this.updatePopup();
       if (!this.$container.classList.contains(this.selectors.initializedClass)) {
@@ -143,6 +155,7 @@ let helpers = {
         this.$container.classList.add(this.selectors.initializedClass);
         this._initCloseActions();
         this._initBackDropClick();
+        this._initUpdateServings();
       },
 
       updatePopup: function () {
@@ -170,24 +183,17 @@ let helpers = {
       },
 
       _updateRecipeDetails: function(data) {
-        const $title = this.$container.querySelector('.title__link');
-        const $description = this.$container.querySelector('.description');
-        const $ingredients = this.$container.querySelector('.ingredients-list');
-        const $directions = this.$container.querySelector('.directions-list');
-        const $servings = this.$container.querySelector('.servings');
-        const $tags = this.$container.querySelector('.tags');
-        const $author = this.$container.querySelector('.author');
-        const $source = this.$container.querySelector('.source');
+        const _this = this;
 
-        $title.innerText = data.title;
-        $description.innerText = data.description;
+        _this.$title.innerText = data.title;
+        _this.$description.innerText = data.description;
 
         data.ingredients.forEach(function(ingredient) {
           const $ingredient = document.createElement('li');
           $ingredient.classList.add('ingredients__item')
           $ingredient.innerText = ingredient;
 
-          $ingredients.appendChild($ingredient);
+          _this.$ingredients.appendChild($ingredient);
         });
 
         data.directions.forEach(function(direction) {
@@ -195,16 +201,16 @@ let helpers = {
           $direction.classList.add('directions__item')
           $direction.innerText = direction;
 
-          $directions.appendChild($direction);
+          _this.$directions.appendChild($direction);
         });
 
-        $servings.innerText = data.servings;
-        $tags.innerText = data.tags.join(',');
+        _this.$servings.value = data.servings;
+        _this.$tags.innerText = data.tags.join(',');
 
-        $author.innerText = data.author.name;
-        $author.href = data.author.url;
+        _this.$author.innerText = data.author.name;
+        _this.$author.href = data.author.url;
 
-        $source.href = data.source_url;
+        _this.$source.href = data.source_url;
       },
 
       _initCloseActions: function () {
@@ -229,6 +235,35 @@ let helpers = {
         setTimeout(() => {
           this.$container.classList.add(this.selectors.loadingClass);
         }, 450);
+      },
+
+      _initUpdateServings: function () {
+        const _this = this;
+
+        this.$updateBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const url = ajaxList.item + _this.recipeId;
+          const params = { "servings": _this.$servings.value }
+
+          fetch(url,
+            {
+              method: 'POST',
+              body: JSON.stringify(params),
+              headers: {
+                'Content-Type': 'application/json',
+              }
+            }).then(function (response) {
+            if (response.ok) {
+              return response.json();
+            } else {
+              return Promise.reject(response);
+            }
+          }).then(function(data) {
+            alert(data.message);
+          }).catch(function (err) {
+            alert(err.message);
+          });
+        });
       },
 
       _showPopup: function() {
