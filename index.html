@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="Techdevcrazy" />
+
+	<!--------------- Stylesheets --------------->
+	<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!--[if lt IE 9]>
+		<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+	<![endif]-->
+
+	<!------------- Document Title -------------->
+	<title>Recipes List</title>
+</head>
+
+
+<body>
+	<!----------------- Header ------------------>
+	<header class="header container">
+	</header>
+	<!------------ End Header Type 1 ------------>
+
+	<main>
+		<h1 class="text-center">Brows our recipes</h1>
+		<section class="recipes recipes_loading container position-relative">
+			<div class="search">
+				<input type="text" class="search-input" placeholder="Search our list" />
+			</div><!-- /.search -->
+
+			<ul class="recipes-list position-relative text-center">
+			</ul><!-- /.recipes-list recipes-list_loading -->
+
+			<div class="recipes__loader position-relative text-center">
+				<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+				<p>Loading recipes</p>
+			</div>
+			<!-- /.recipes__loader -->
+		</section><!-- /.slideshow -->
+	</main>
+
+	<!--------------- Page Overlay -------------->
+	<div class="page-overlay"></div><!-- /.page-overlay -->
+
+	<!-------------- Details Popup -------------->
+	<div class="details-popup details-popup_loading">
+		<div class="details-popup__header position-relative">
+			<h3 class="title text-uppercase m-0">
+				<a class="title__link" href="#">Title</a>
+			</h3>
+			<button class="btn-close position-absolute right-0 js-close-popup">x</button>
+		</div><!-- /.aside-header -->
+		<div class="details-popup__content">
+			<p class="description">Description</p>
+
+			<p class="ingredients-title mb-0">Ingredients</p>
+			<ul class="ingredients-list mt-0">
+			</ul>
+
+			<p class="directions-title mb-0">Directions</p>
+			<ul class="directions-list mt-0">
+			</ul>
+
+			<p class="mb-0">
+				<span>Servings:</span>
+				<span class="servings"></span>
+			</p>
+
+			<p class="mb-0">Tags: <span class="tags"></span></p>
+
+			<p class="mb-0">
+				<span>Author:</span>
+				<a class="author" href="#" target="_blank"></a>
+			</p>
+
+			<p class="mb-0">
+				<a class="source" href="#" target="_blank">View Product</a>
+			</p>
+		</div>
+		<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+	</div>
+	<!-- /.details-popup -->
+
+
+	<!----------------- Scripts ----------------->
+	<script src="app.js"></script>
+
+</body>
+</html>
